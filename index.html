@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script src="http://how2j.cn/study/jquery.min.js"></script>
+		<title></title>
+	</head>
+	<body>
+		题目：有n个人围成一圈，顺序排号，从第一个人开始报数（从1到3报数），凡报到3的人退出圈子。<br />
+		问：最后留下的是原来第几号的那位。<br />
+		实现一个方法，参数为整数，返回值为最后留下的人所在的位置<br />
+		<input type="text" class="input" placeholder="输入整数n"/><br />
+		<button class="finalPeople">活到最后的人</button>
+	</body>
+	<script type="text/javascript">
+		function winner (n){
+			var people = [];					//定义一个数组，存放n个人
+			var deadPeople = 0;					//定义死亡人数，就是报数为3的人，杀死
+			for(var i=0;i<n;i++){
+				people[i]={id:i+1,isLive:true};	//给每个人赋予一个id(题目中的顺序排号，从1号开始),并且默认全部活着
+			}
+			var index = 0 ;						//索引
+			var speaknumber = 0; 				//报数
+			var finalPeopleIndex = 0;			//返回的答案
+			/* ----------初始化结束 开始循环报数-------------- */
+			while(deadPeople < n-1){			//直到只剩下1人时才停止报数
+				if(people[index].isLive){		//判断当前的人是否活着，true代表活着(在圈内)
+					speaknumber ++;				//报数 第一个人报 0++ 就是1
+				}
+				if(speaknumber == 3){
+					people[index].isLive =false;// 如果报数为3 ，打死他
+					deadPeople ++;				//死人数+1
+					speaknumber = 0;			//重置报数为0  下一个人就又是报1
+				}
+				index++;						//实现轮流报数
+				if(index == n){
+					index = 0;					//实现循环报数
+				}
+			}
+			for(var i = 0;i<n;i++){
+				if(people[i].isLive){
+												//找出唯一活着的人，就是isLive为true的人
+					finalPeopleIndex = people[i].id;
+				}
+			}
+			return finalPeopleIndex;			//返回答案
+		}
+		$('.finalPeople').click(function(){
+			var answer = winner($('.input').val());
+			alert('活到最后的是'+ answer +'号');
+		});
+		
+	</script>
+</html>
